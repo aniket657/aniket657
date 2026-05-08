@@ -1,0 +1,63 @@
+
+2.	Implement Bresenham circle drawing algorithm to draw any object. The object should be displayed in all the quadrants with respect to center and radius-
+
+
+
+#include <graphics.h>
+#include <stdio.h>
+#include <conio.h>
+
+void drawCircle(int xc, int yc, int x, int y)
+{
+    putpixel(xc+x, yc+y, WHITE);
+    putpixel(xc-x, yc+y, WHITE);
+    putpixel(xc+x, yc-y, WHITE);
+    putpixel(xc-x, yc-y, WHITE);
+    putpixel(xc+y, yc+x, WHITE);
+    putpixel(xc-y, yc+x, WHITE);
+    putpixel(xc+y, yc-x, WHITE);
+    putpixel(xc-y, yc-x, WHITE);
+}
+
+void bresCircle(int xc, int yc, int r)
+{
+    int x = 0, y = r;
+    int d = 3 - 2 * r;
+
+    while(x <= y)
+    {
+        drawCircle(xc, yc, x, y);
+
+        if(d < 0)
+            d = d + 4 * x + 6;
+        else
+        {
+            d = d + 4 * (x - y) + 10;
+            y--;
+        }
+
+        x++;
+    }
+}
+
+int main()
+{
+    int gd = DETECT, gm;
+
+    initgraph(&gd, &gm, "");
+
+    // X and Y axis
+    line(320,0,320,480);
+    line(0,240,640,240);
+
+    // Circles in all quadrants
+    bresCircle(420,140,50); // 1st quadrant
+    bresCircle(220,140,50); // 2nd quadrant
+    bresCircle(220,340,50); // 3rd quadrant
+    bresCircle(420,340,50); // 4th quadrant
+
+    getch();
+    closegraph();
+
+    return 0;
+}
