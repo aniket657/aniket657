@@ -1,0 +1,93 @@
+6.	Generate fractal patterns using i) Bezier ii) Koch Curve –
+
+
+#include <graphics.h>
+#include <stdio.h>
+#include <conio.h>
+
+void bezier(int x[4], int y[4])
+{
+    float t, xt, yt;
+
+    for(t = 0.0; t <= 1.0; t += 0.0005)
+    {
+        xt = x[0]*pow(1-t,3) +
+             3*x[1]*t*pow(1-t,2) +
+             3*x[2]*pow(t,2)*(1-t) +
+             x[3]*pow(t,3);
+
+        yt = y[0]*pow(1-t,3) +
+             3*y[1]*t*pow(1-t,2) +
+             3*y[2]*pow(t,2)*(1-t) +
+             y[3]*pow(t,3);
+
+        putpixel(xt, yt, WHITE);
+    }
+}
+
+int main()
+{
+    int gd = DETECT, gm;
+
+    int x[4] = {100, 150, 250, 300};
+    int y[4] = {300, 100, 100, 300};
+
+    initgraph(&gd, &gm, "");
+
+    bezier(x, y);
+
+    getch();
+    closegraph();
+    return 0;
+}
+
+
+
+koch *
+
+
+#include <graphics.h>
+#include <math.h>
+#include <stdio.h>
+#include <conio.h>
+
+void koch(int x1, int y1, int x2, int y2, int it)
+{
+    float angle = 60 * 3.14 / 180;
+    int x3, y3, x4, y4, x, y;
+
+    if(it == 0)
+    {
+        line(x1, y1, x2, y2);
+    }
+    else
+    {
+        x3 = (2*x1 + x2) / 3;
+        y3 = (2*y1 + y2) / 3;
+
+        x4 = (x1 + 2*x2) / 3;
+        y4 = (y1 + 2*y2) / 3;
+
+        x = x3 + (x4 - x3)*cos(angle) + (y4 - y3)*sin(angle);
+        y = y3 - (x4 - x3)*sin(angle) + (y4 - y3)*cos(angle);
+
+        koch(x1, y1, x3, y3, it-1);
+        koch(x3, y3, x, y, it-1);
+        koch(x, y, x4, y4, it-1);
+        koch(x4, y4, x2, y2, it-1);
+    }
+}
+
+int main()
+{
+    int gd = DETECT, gm;
+
+    initgraph(&gd, &gm, "");
+
+    koch(100, 300, 500, 300, 4);
+
+    getch();
+    closegraph();
+
+    return 0;
+}
